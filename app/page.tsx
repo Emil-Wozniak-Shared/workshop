@@ -1,57 +1,23 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/SignUpUserSteps";
-import Header from "@/components/Header";
-import { cookies } from "next/headers";
+"use client"
+import {JSX} from "react";
+import {Box, Button, Grid, Typography} from "@mui/material";
 
-export default async function Index() {
-  const cookieStore = cookies();
-
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient(cookieStore);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
-
-  return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
-        </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
-      </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
-    </div>
-  );
-}
+const Index = (): JSX.Element => {
+    return (
+        <Grid container>
+            <Box sx={{marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center"}}>
+                <Typography variant="h2">Supabase Auth + Storage</Typography>
+                <Typography paragraph>
+                    Experience our Auth and Storage through a simple profile management example. Create a user
+                    profile and upload an avatar image. Fast, simple, secure.
+                </Typography>
+                <Box>
+                    <Button href="/login" variant="contained" color="warning" fullWidth>
+                        <Typography variant="body1">You are not logged in</Typography>
+                    </Button>
+                </Box>
+            </Box>
+        </Grid>
+    );
+};
+export default Index
