@@ -64,8 +64,6 @@ const Navbar: FC<Props> = (props): JSX.Element => {
         initialized.current = true
     }
     const user = useAppSelector(state => state.user)
-
-    console.log('nav user ', user)
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -73,7 +71,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
     const drawer: JSX.Element = (
         <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
             <Typography variant="h6" sx={{my: 2}}>
-                MUI
+                E2E with Geb
             </Typography>
             <Divider/>
             <List>
@@ -101,7 +99,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
                         component="div"
                         sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
                     >
-                        MUI
+                        E2E with Geb
                     </Typography>
                     <Box sx={{display: {xs: 'none', sm: 'block'}}}>
                         <Items authenticated={user.authenticated} />
