@@ -3,7 +3,6 @@ import {FC, JSX, useRef} from "react";
 import {Box, Button, Grid, Typography} from "@mui/material";
 import {useAppSelector} from "@/state/hooks";
 
-
 const Index: FC = (): JSX.Element => {
     const initialized = useRef(false)
     if (!initialized.current) {
