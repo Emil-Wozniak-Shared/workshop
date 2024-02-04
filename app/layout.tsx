@@ -4,6 +4,7 @@ import {Metadata} from "next";
 import {ReactNode} from "react";
 import Navbar from "@/components/ui/Navbar";
 import StoreProvider from "@/components/redux/StoreProvider";
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultUrl: string = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`

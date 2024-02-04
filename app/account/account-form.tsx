@@ -1,9 +1,10 @@
 'use client'
-import {JSX, useCallback, useEffect, useState} from 'react'
+import {FC, JSX, useCallback, useEffect, useRef, useState} from 'react'
 import {createClientComponentClient, User} from '@supabase/auth-helpers-nextjs'
 import {Box, Button, Grid, TextField, Typography} from "@mui/material";
 import {toast, ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {useAppDispatch, useAppSelector} from "@/state/hooks";
+import {setAuthenticated} from "@/state/features/user/userSlice";
 
 type UpdateProfileProps = {
     username: string | null
@@ -14,7 +15,14 @@ type UpdateProfileProps = {
 
 type Props = { user: User | null }
 
-const AccountForm = ({user}: Props): JSX.Element => {
+const AccountForm: FC<Props> = ({user}): JSX.Element => {
+    const initialized = useRef(false)
+    const dispatch = useAppDispatch();
+    if (!initialized.current) {
+        initialized.current = true
+    }
+    dispatch(setAuthenticated(true))
+    const appUser = useAppSelector(state => state.user)
     const supabase = createClientComponentClient()
     const [loading, setLoading] = useState(true)
     const [fullname, setFullname] = useState<string | null>(null)
@@ -50,7 +58,7 @@ const AccountForm = ({user}: Props): JSX.Element => {
     }, [user, supabase])
 
     useEffect(() => {
-        getProfile()
+        getProfile().then(r => r)
     }, [user, getProfile])
 
     async function updateProfile({username, website, avatar_url,}: UpdateProfileProps) {
@@ -79,7 +87,7 @@ const AccountForm = ({user}: Props): JSX.Element => {
         <Grid container>
             <ToastContainer/>
             <Box sx={{marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center"}}>
-                <Typography variant="h2" sx={{m:2}}>
+                <Typography variant="h2" sx={{m: 2}}>
                     Profile
                 </Typography>
                 <TextField

@@ -1,5 +1,6 @@
 "use client"
 import * as React from 'react';
+import {FC, JSX, useRef} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -14,10 +15,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from "next/link";
-import {useAppDispatch, useAppSelector, useAppStore} from "@/state/hooks";
-import {useRef} from "react";
-import {getPosts} from "@/state/features/posts/postSlice";
-import { setAuthenticated } from '@/state/features/user/userSlice';
+import {useAppSelector, useAppStore} from "@/state/hooks";
+import {User} from "@supabase/auth-helpers-nextjs";
 
 interface Props {
     /**
@@ -36,38 +35,48 @@ type ItemModel = {
 
 const navItems: ItemModel[] = [
     {name: 'Home', path: "/"},
-    {name: 'Notes', path: "/notes"},
-    {name: 'login', path: "/login"},
+    {name: 'Posts', path: "/posts"},
+    {name: 'Login', path: "/login"},
+    {name: 'Account', path: "/account"},
 ];
 
-const Navbar = (props: Props) => {
+const Items = ({authenticated} : {authenticated: boolean}) => navItems
+    .filter(item => {
+        if (authenticated) {
+            return !item.path.includes('login')
+        }
+        return !item.path.includes('account') && !item.path.includes('posts')
+    })
+    .map(({name, path}) => (
+        <Button
+            href={path}
+            component={Link}
+            key={name} sx={{color: '#fff'}}
+        >
+            {name}
+        </Button>
+    ));
+
+const Navbar: FC<Props> = (props): JSX.Element => {
     const {window} = props;
-    const store = useAppStore()
     const initialized = useRef(false)
     if (!initialized.current) {
-        store.dispatch(setAuthenticated)
         initialized.current = true
     }
     const user = useAppSelector(state => state.user)
-    const dispatch = useAppDispatch()
+
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
-    const drawer = (
+    const drawer: JSX.Element = (
         <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
             <Typography variant="h6" sx={{my: 2}}>
                 MUI
             </Typography>
             <Divider/>
             <List>
-                {navItems.map(({name, path}) => (
-                    <ListItem key={name} disablePadding>
-                        <ListItemButton sx={{textAlign: 'center'}}>
-                            <ListItemText primary={name}/>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <Items authenticated={user.authenticated} />
             </List>
         </Box>
     );
@@ -94,15 +103,7 @@ const Navbar = (props: Props) => {
                         MUI
                     </Typography>
                     <Box sx={{display: {xs: 'none', sm: 'block'}}}>
-                        {navItems.map(({name, path}) => (
-                            <Button
-                                href={path}
-                                component={Link}
-                                key={name} sx={{color: '#fff'}}
-                            >
-                                {name}
-                            </Button>
-                        ))}
+                        <Items authenticated={user.authenticated} />
                     </Box>
                 </Toolbar>
             </AppBar>

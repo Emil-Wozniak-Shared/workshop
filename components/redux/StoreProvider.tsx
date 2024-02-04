@@ -1,10 +1,10 @@
 'use client'
-import {useRef} from 'react'
+import {ReactNode, useRef} from 'react'
 import {Provider} from 'react-redux'
 import {AppStore, makeStore} from '@/state/store'
 
 type Props = {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 const StoreProvider = ({children}: Props) => {

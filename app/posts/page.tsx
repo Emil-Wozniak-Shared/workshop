@@ -1,30 +1,42 @@
 "use client"
-import React, {useRef} from 'react';
-import {useAppDispatch, useAppSelector, useAppStore} from "@/state/hooks";
-import {getPosts, postAdded} from "@/state/features/posts/postSlice";
-import {Box, Button, Grid} from "@mui/material";
+import {FC, JSX, useEffect, useState} from 'react';
+import {Box, Button, Grid, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
+import {Post} from "@/models/Post.model";
+import Link from "next/link";
 
-const Page = () => {
-    const store = useAppStore()
-    const initialized = useRef(false)
-    if (!initialized.current) {
-        store.dispatch(getPosts)
-        initialized.current = true
-    }
-    const posts = useAppSelector(state => state.posts)
-    const dispatch = useAppDispatch()
+const Posts: FC = (): JSX.Element => {
+    const [posts, setPosts] = useState<Post[]>([])
+    const supabase = createClientComponentClient()
+
+    const setup = async () => {
+        const {data: {user}, error} = await supabase.auth.getUser();
+        const {data} = await supabase.from("posts").select('*') //.eq("user_id", user!.id!);
+        setPosts(data as Post[])
+    };
+
+    useEffect(() => {
+        setup()
+    }, []);
     return (
         <Grid container>
             <Box sx={{marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center"}}>
-                {posts.posts.map(post =>
-                    <li>{post.title}</li>
-                )}
-                <Button onClick={() => {
-                    dispatch(postAdded({id: "string", title: "string", content: "string"}))
-                }}>add</Button>
+                <List aria-label="post list">
+                    {posts.map((post, id) => (
+                        <ListItem key={`post-item-${id}`}>
+                            <ListItemButton
+                                component={Link}
+                                href={`/posts/${post.id}`}
+                            >
+                                <ListItemText primary={post.title}/>
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+                <Button variant="contained" href="/posts/create">Create</Button>
             </Box>
         </Grid>
     );
 };
 
-export default Page;
+export default Posts;
