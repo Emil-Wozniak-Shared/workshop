@@ -1,20 +1,18 @@
-import React, {FC, JSX} from 'react';
-import MarkdownPreview from '@uiw/react-markdown-preview';
+import {FC, JSX} from 'react';
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeRewrite from "rehype-rewrite"
 
-type Props ={
+type Props = {
     source: string
 }
 const MdBlock: FC<Props> = ({source}): JSX.Element => {
+    const plugins = [remarkGfm, rehypeAutolinkHeadings, rehypeRewrite];
     return (
-        <MarkdownPreview
-            source={source}
-            rehypeRewrite={(node, index, parent) => {
-                // @ts-ignore
-                if (node && node.tagName === "a" && parent && /^h(1|2|3|4|5|6)/.test(parent.tagName)) {
-                    parent.children = parent.children.slice(1)
-                }
-            }}
-        />
+        <Markdown remarkPlugins={plugins}>
+            {source}
+        </Markdown>
     );
 };
 

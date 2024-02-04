@@ -16,13 +16,8 @@ type UpdateProfileProps = {
 type Props = { user: User | null }
 
 const AccountForm: FC<Props> = ({user}): JSX.Element => {
-    const initialized = useRef(false)
     const dispatch = useAppDispatch();
-    if (!initialized.current) {
-        initialized.current = true
-    }
     dispatch(setAuthenticated(true))
-    const appUser = useAppSelector(state => state.user)
     const supabase = createClientComponentClient()
     const [loading, setLoading] = useState(true)
     const [fullname, setFullname] = useState<string | null>(null)

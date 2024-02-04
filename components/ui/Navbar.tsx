@@ -65,6 +65,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
     }
     const user = useAppSelector(state => state.user)
 
+    console.log('nav user ', user)
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
