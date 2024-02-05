@@ -49,9 +49,11 @@ const Items = ({authenticated} : {authenticated: boolean}) => navItems
     })
     .map(({name, path}) => (
         <Button
+            aria-label={`button ${name}`}
             href={path}
             component={Link}
-            key={name} sx={{color: '#fff'}}
+            key={name}
+            sx={{color: '#fff'}}
         >
             {name}
         </Button>
@@ -70,7 +72,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
     };
     const drawer: JSX.Element = (
         <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
-            <Typography variant="h6" sx={{my: 2}}>
+            <Typography variant="h6" sx={{my: 2}} aria-label='title'>
                 E2E with Geb
             </Typography>
             <Divider/>
@@ -95,6 +97,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
                         <MenuIcon/>
                     </IconButton>
                     <Typography
+                        aria-label='title'
                         variant="h6"
                         component="div"
                         sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}}}
