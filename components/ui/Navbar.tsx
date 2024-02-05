@@ -1,22 +1,18 @@
 "use client"
 import * as React from 'react';
 import {FC, JSX, useRef} from 'react';
+import {useAppSelector} from "@/state/hooks";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from "next/link";
-import {useAppSelector, useAppStore} from "@/state/hooks";
-import {User} from "@supabase/auth-helpers-nextjs";
 
 interface Props {
     /**
@@ -40,7 +36,7 @@ const navItems: ItemModel[] = [
     {name: 'Account', path: "/account"},
 ];
 
-const Items = ({authenticated} : {authenticated: boolean}) => navItems
+const Items = ({authenticated}: { authenticated: boolean }) => navItems
     .filter(item => {
         if (authenticated) {
             return !item.path.includes('login')
@@ -77,7 +73,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
             </Typography>
             <Divider/>
             <List>
-                <Items authenticated={user.authenticated} />
+                <Items authenticated={user.authenticated}/>
             </List>
         </Box>
     );
@@ -105,7 +101,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
                         E2E with Geb
                     </Typography>
                     <Box sx={{display: {xs: 'none', sm: 'block'}}}>
-                        <Items authenticated={user.authenticated} />
+                        <Items authenticated={user.authenticated}/>
                     </Box>
                 </Toolbar>
             </AppBar>
