@@ -30,7 +30,9 @@ const Page: FC = (): JSX.Element => {
                             {post.title}
                         </Typography>
                         <Typography variant="body1">
-                            <MdBlock source={post.content} />
+                            {post.content &&
+                                <MdBlock source={post.content}/>
+                            }
                         </Typography>
                     </>
                 )}
