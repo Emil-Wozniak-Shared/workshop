@@ -1,12 +1,14 @@
 import {Action, configureStore, ThunkAction} from "@reduxjs/toolkit";
-import {userSlice} from "@/state/features/user/userSlice";
+import {authSlice} from "@/state/features/user/authSlice";
 import {postsSlice} from "./features/posts/postSlice";
+import {userSlice} from "@/state/features/user/userSlice";
 
 export const makeStore = () =>
     configureStore({
         reducer: {
-            [userSlice.name]: userSlice.reducer,
+            [authSlice.name]: authSlice.reducer,
             [postsSlice.name]: postsSlice.reducer,
+            [userSlice.name]: userSlice.reducer,
         },
         devTools: true,
     });

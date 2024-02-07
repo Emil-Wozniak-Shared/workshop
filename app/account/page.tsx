@@ -18,14 +18,14 @@ const Account = async () => {
                             fullWidth
                             label='Name'
                             name='name'
-                            value={session?.user?.name}
+                            value={session?.user?.name ?? ''}
                         />
                         <TextField
                             sx={{mb: 1}}
                             fullWidth
                             label='Image'
                             name='image'
-                            value={session?.user?.image}
+                            value={session?.user?.image ?? ''}
                         />
                     </Box>
                     <Divider/>

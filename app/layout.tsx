@@ -1,7 +1,7 @@
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v13-appRouter';
 import {Box, CssBaseline, Toolbar} from "@mui/material";
 import {Metadata} from "next";
-import {ReactNode} from "react";
+import {FC, ReactNode} from "react";
 import Navbar from "@/components/ui/Navbar";
 import StoreProvider from "@/components/redux/StoreProvider";
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +20,7 @@ type Props = {
     children: ReactNode
 }
 
-const RootLayout = ({children,}: Props) => {
+const RootLayout: FC<Props> = ({children}) => {
     return (
         <html lang="en">
         <body>

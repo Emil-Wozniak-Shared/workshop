@@ -2,13 +2,15 @@ import {createSlice} from "@reduxjs/toolkit";
 import {AppState} from '../../store'
 
 // Type for our state
-export interface AuthState {
-    authenticated: boolean;
+export interface UserState {
+    id: number | null
+    name?: string | null
+    email?: string | null
 }
 
 // Initial state
-const initialState: AuthState = {
-    authenticated: false,
+const initialState: UserState = {
+    id: null,
 };
 
 // Actual Slice
@@ -17,14 +19,22 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         // Action to set the authentication status
-        setAuthenticated(state, action) {
-            state.authenticated = action.payload;
+        setUserState(state, action) {
+            if (action.payload !== null) {
+                state = {...action.payload}
+            } else {
+                state = initialState
+            }
+            state
         },
+        getUser(state, action) {
+            state
+        }
     },
 });
 
-export const {setAuthenticated} = userSlice.actions;
+export const {setUserState} = userSlice.actions;
 
-export const selectAuthState = (state: AppState) => state.user.authenticated;
+export const selectUserState = (state: AppState) => state.user;
 
 export default userSlice.reducer;

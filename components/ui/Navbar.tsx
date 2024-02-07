@@ -1,7 +1,7 @@
 "use client"
 import * as React from 'react';
 import {FC, JSX, useRef} from 'react';
-import {useAppSelector} from "@/state/hooks";
+import {useAppStore} from "@/state/hooks";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -57,15 +57,21 @@ const Items = ({authenticated}: { authenticated: boolean }) => navItems
 
 const Navbar: FC<Props> = (props): JSX.Element => {
     const {window} = props;
+    const store = useAppStore()
     const initialized = useRef(false)
     if (!initialized.current) {
         initialized.current = true
     }
-    const user = useAppSelector(state => state.user)
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
+
+    const auth = {authenticated: true}
+    //     = useAppSelector(state => {
+    //     return state.auth;
+    // });
+
     const drawer: JSX.Element = (
         <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
             <Typography variant="h6" sx={{my: 2}} aria-label='title'>
@@ -73,7 +79,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
             </Typography>
             <Divider/>
             <List>
-                <Items authenticated={user.authenticated}/>
+                <Items authenticated={auth.authenticated}/>
             </List>
         </Box>
     );
@@ -101,7 +107,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
                         E2E with Geb
                     </Typography>
                     <Box sx={{display: {xs: 'none', sm: 'block'}}}>
-                        <Items authenticated={user.authenticated}/>
+                        <Items authenticated={auth.authenticated}/>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -111,7 +117,7 @@ const Navbar: FC<Props> = (props): JSX.Element => {
                     variant="temporary"
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
-                    ModalProps={{ keepMounted: true, /* Better open performance on mobile. */}}
+                    ModalProps={{keepMounted: true, /* Better open performance on mobile. */}}
                     sx={{
                         display: {xs: 'block', sm: 'none'},
                         '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},

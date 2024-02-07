@@ -4,14 +4,14 @@ import {Box, Button, Grid, Typography} from "@mui/material";
 import {useAppSelector} from "@/state/hooks";
 import {SpockUpAndRunning} from "@/components/SpockUpAndRunning";
 import {Gebish} from "@/components/Gebish";
-import {AuthState} from "@/state/features/user/userSlice";
+import {AuthState} from "@/state/features/user/authSlice";
 
 const Index: FC = (): JSX.Element => {
     const initialized = useRef(false)
     if (!initialized.current) {
         initialized.current = true
     }
-    const user: AuthState = useAppSelector(state => state.user)
+    const user = useAppSelector(state => state.auth)
 
     return (
         <Grid container>
