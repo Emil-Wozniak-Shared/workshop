@@ -5,6 +5,7 @@ import {Form} from "@/components/form";
 import {SubmitButton} from "@/components/submit-button";
 import {JSX} from "react";
 import {Box, Grid, Typography} from "@mui/material";
+import {getServerSideProps, registerUser} from "@/app/database";
 
 const Register = (): JSX.Element => {
     const register = async (formData: FormData) => {
@@ -16,17 +17,16 @@ const Register = (): JSX.Element => {
         if (user.length > 0) {
             return 'User already exists'; // TODO: Handle errors with useFormStatus
         } else {
-            await createUser(email, password);
+            console.log("register", email, password)
+            const response = await registerUser(email, password);
+            // await createUser(email, password);
             redirect('/login');
         }
     };
 
     return (
-        <Grid container sx={{
-            height: 'full'
-        }} className="flex h-screen w-screen items-center justify-center bg-gray-50">
+        <Grid container sx={{height: 'full'}}>
             <Box sx={{marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center"}}>
-
                 <Typography
                     variant='h3'
                     sx={{
@@ -34,7 +34,9 @@ const Register = (): JSX.Element => {
                         lineHeight: '1.75rem', /* 28px */
                         fontWeight: 'bold'
                     }}
-                    className="text-xl font-semibold">Sign Up</Typography>
+                    className="text-xl font-semibold">
+                    Sign Up
+                </Typography>
                 <Typography paragraph sx={{
                     color: 'rgb(107 114 128)',
                     fontSize: '0.875rem', /* 14px */

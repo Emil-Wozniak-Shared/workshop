@@ -8,7 +8,7 @@ import postgres from 'postgres';
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
 // https://authjs.dev/reference/adapter/drizzle
-const url = `${process.env.POSTGRES_URL!}?sslmode=require`;
+const url = `${process.env.DATABASE_URL}`;
 
 // see https://api.elephantsql.com/console/663d6e37-c108-458a-8a73-fda326af84be/details
 let client = postgres(url, {
